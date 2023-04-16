@@ -291,14 +291,26 @@ struct file_ver_data_s {
 		return false;
 	}
 
-	PCWSTR getValStr( __in PCWSTR name )
+	PCWSTR getValStr(__in PCWSTR name)
 	{
 		for (int i = 0; i < ARRAYSIZE(CustomStrNames); i++) {
 			PCWSTR s = CustomStrNames[i];
-			if ( s && (0 == _wcsicmp(name, s) ) )
+			if (s && (0 == _wcsicmp(name, s)))
 				return CustomStrVals[i];
 		}
 		return NULL;
+	}
+
+	void debugDumpAllValues()
+	{
+		dprint("============================================\n");
+		dprint("    DUMP ALL VERSION VALUES                 \n\n");
+		for (int i = 0; i < ARRAYSIZE(CustomStrNames); i++) {
+			PCWSTR s = CustomStrNames[i];
+			PCWSTR v = CustomStrVals[i];
+			dprint("%d) \"%ws\" = \"%ws\"\n",i, s,v);
+		}
+		dprint("============================================\n");
 	}
 };
 

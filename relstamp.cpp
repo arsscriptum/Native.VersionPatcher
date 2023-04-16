@@ -439,7 +439,22 @@ int _tmain(int argc, _TCHAR* argv[])
 		r &= fillProductInfo( &file_ver_data );
         file_ver_data.langid = g_params.LangId;
 	}
+	
 
+	if (argc == 2) {
+		dtprint(_T("FilePath=%s\n"), argv[1]);
+		dtprint(_T("Version=%u.%u.%u.%u\n"),(file_ver_data.v_1), (file_ver_data.v_2), (file_ver_data.v_3), (file_ver_data.v_4));
+		dtprint(_T("OriginalFilename=%s\n"), file_ver_data.getValStr(_T("OriginalFilename")));
+		dtprint(_T("FileDescription=%s\n"), file_ver_data.getValStr(_T("FileDescription")));
+		dtprint(_T("InternalName=%s\n"), file_ver_data.getValStr(_T("InternalName")));
+		dtprint(_T("PrivateBuild=%s\n"), file_ver_data.getValStr(_T("PrivateBuild")));
+		dtprint(_T("SpecialBuild=%s\n"), file_ver_data.getValStr(_T("SpecialBuild")));
+		dtprint(_T("ProductName=%s\n"), file_ver_data.getValStr(_T("ProductName")));
+		dtprint(_T("CompanyName=%s\n"), file_ver_data.getValStr(_T("CompanyName")));
+		dtprint(_T("LegalCopyright=%s\n"), file_ver_data.getValStr(_T("LegalCopyright")));
+
+		return 0;
+	}
 	// Parse again, put the args into the data
 	if ( !g_params.cmd_arg_parse( argc, argv, &fname, &file_ver_data ) ) {
 		dprint("Error parsing command args 2 pass!\n");

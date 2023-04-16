@@ -96,8 +96,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Message>Add version and helptext...</Message>
-      <Command>cd /d $(OutDir) &amp;&amp; $(ProjectDir)ver-self.cmd</Command>
+      <Command>pwsh.exe -nop -noni -f $(ProjectDir)scripts\Invoke-PostBuild.ps1 $(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
