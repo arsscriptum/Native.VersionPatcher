@@ -96,7 +96,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>pwsh.exe -nop -noni -f $(ProjectDir)scripts\Invoke-PostBuild.ps1 $(Configuration)</Command>
+      <Command>pwsh.exe -nop -noni -f $(ProjectDir)scripts\Invoke-PostBuild.ps1 $(Configuration) $(SolutionDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

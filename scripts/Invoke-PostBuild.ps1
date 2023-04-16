@@ -3,98 +3,54 @@ function Invoke-IsAdministrator  {
     (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
 }
 
-function Test-VerPatchCompatible {
-   [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Path
-    )
-      try{
-       $CurrentFileVersion = (gi "$BuiltExecutable").VersionInfo.FileVersion
-       $VerPatchCompatible = !([string]::IsNullOrEmpty($CurrentFileVersion))
-       return $VerPatchCompatible
-    }catch{
-        Show-ExceptionDetails $_ -ShowStack
-       
-    }
-}
-
-function Get-VerPatchProperty {
-   [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Path,
-        [Parameter(Mandatory=$true,Position=1)]
-        [string]$Property
-    )
-      try{
-        if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){ throw "No verpath tool found" }
-        $VersionPatcherPath = $ENV:VersionPatcherPath
-        [String[]]$VersionData = &"$VersionPatcherPath" "$Path"
-        ForEach($ver in $VersionData){
-            $i = $ver.IndexOf('=')
-            $propname = $ver.Substring(0,$i)
-            $propvalue = $ver.Substring($i+1,$ver.Length - $i - 1)
-            if($Property -match $propname){
-                return $propvalue
-            }
-        }
-
-    }catch{
-        Show-ExceptionDetails $_ -ShowStack
-       
-    }
-}
-
-
-function Get-VerPatchPropertyNames {
-   [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Path
-    )
-      try{
-        [String[]]$PropertyNames = @()
-        if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){ throw "No verpath tool found" }
-        $VersionPatcherPath = $ENV:VersionPatcherPath
-        [String[]]$VersionData = &"$VersionPatcherPath" "$Path"
-        ForEach($ver in $VersionData){
-            $i = $ver.IndexOf('=')
-            $propname = $ver.Substring(0,$i)
-            $PropertyNames += $propname
-        }
-        $PropertyNames
-    }catch{
-        Show-ExceptionDetails $_ -ShowStack
-       
-    }
-}
-
 
 function Get-ScriptDirectory {
     Split-Path -Parent $PSCommandPath
 }
 
       try{
-
-        Write-Output "`n`n"
-        Write-Output "=========================================================="
-        Write-Output "                POST-BUILD OPERATIONS"
-        Write-Output "==========================================================`n`n"
-
-               
         $IsAdministrator = Invoke-IsAdministrator 
         $ErrorDetails=''
         $ErrorOccured=$False
         $Script:Configuration = "Debug"
         if(!([string]::IsNullOrEmpty($args[0]))){
             $Script:Configuration = $args[0]
+            Write-Output "Configuration ==> $Script:Configuration"
+        }else{
+            throw "missing argument 0"
         }
-        $ScriptDirectory = Get-ScriptDirectory
-        $SolutionRoot = (Resolve-Path "$ScriptDirectory\..").Path
-        $OutputDirectory = (Resolve-Path "$SolutionRoot\$Configuration").Path
+        if(!([string]::IsNullOrEmpty($args[1]))){
+            $RootPath = $args[1]
+            Write-Output "RootPath ==> $RootPath"
+        }else{
+            throw "missing argument 1"
+        }
+        $SolutionDirectory = (Resolve-Path $RootPath).Path
+        
+        $ScriptsDirectory = (Resolve-Path "$SolutionDirectory\scripts").Path
+        $OutputDirectory = (Resolve-Path "$SolutionDirectory\$Configuration").Path
         $BuiltExecutable = Join-Path "$OutputDirectory" "verpatch.exe"
-        $ReadmeFile  = Join-Path "$SolutionRoot" "usage.txt"
+        $ReadmeFile  = Join-Path "$SolutionDirectory" "usage.txt"
+        Write-Output "=========================================================="
+        Write-Output "SolutionDirectory ==> $SolutionDirectory"
+        Write-Output "ScriptsDirectory  ==> $ScriptsDirectory"
+        Write-Output "OutputDirectory   ==> $OutputDirectory"
+        Write-Output "=========================================================="
+        [string[]]$deps = . "$PSScriptRoot\dependencies\GetDependencies.ps1" -Path "$PSScriptRoot\dependencies"
+        $depscount = $deps.Count
+        $deps | % {
+            . "$_"
+        }
+        $Test = Test-Dependencies -q
+        if(! ($Test) ) { throw "dependencies error"} 
+
+        Write-Output "`n`n"
+        Write-Output "=========================================================="
+        Write-Output "                POST-BUILD OPERATIONS"
+        Write-Output "==========================================================`n`n"
+
+        
+
         #$DejaInsighDll = "F:\Development\DejaInsight\lib\DejaInsight.x86.dll"
         #Copy-Item $DejaInsighDll $OutputDirectory -Force
         #Write-Output "COPY DEJA INSIGHT DLL TO `" $OutputDirectory `""
