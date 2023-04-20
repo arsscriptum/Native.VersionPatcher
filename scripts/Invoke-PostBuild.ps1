@@ -49,12 +49,6 @@ function Get-ScriptDirectory {
         Write-Output "                POST-BUILD OPERATIONS"
         Write-Output "==========================================================`n`n"
 
-        
-
-        #$DejaInsighDll = "F:\Development\DejaInsight\lib\DejaInsight.x86.dll"
-        #Copy-Item $DejaInsighDll $OutputDirectory -Force
-        #Write-Output "COPY DEJA INSIGHT DLL TO `" $OutputDirectory `""
-
 
         if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){
             Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ToolsRoot\VersionPatcher\verpatch.exe" -Scope Session
@@ -69,10 +63,12 @@ function Get-ScriptDirectory {
         $BuildDateString = $CreatedOn.GetDateTimeFormats()[13]
         [TimeSpan]$ts = [datetime]::Now - [DateTime]$CreatedOn
         $Md5Hash = (Get-FileHash "$BuiltExecutable" -Algorithm MD5).Hash
+        $NewInternalName = "{0}-{1}" -f $inf.Basename, $Configuration
+        
         $Log = 'Built {0:d2} hours, {1:d2} minutes and {2:d2} seconds ago' -f $ts.Hours, $ts.Minutes, $ts.Seconds
         $NewDescription = "A command-line utility that reads and write, updates the version information in a Windows binary file."
         $BuildComment = '{2} build created on {0} using the pc {1}. MD5: {3}' -f $BuildDateString, "$ENV:COMPUTERNAME", $Configuration, $Md5Hash
-        $NewInternalName = "{0}-{1}" -f $inf.Basename, $Configuration
+        
         $VerPatchCompatible = Test-VerPatchCompatible "$BuiltExecutable"
         if($VerPatchCompatible -eq $False){
             Write-Output "[IMPORTANT] NEW BUILD `"$BuiltExecutable`" does not have binary embedded version information. Initializing version info..."
