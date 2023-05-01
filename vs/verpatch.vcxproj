@@ -18,6 +18,7 @@
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup>
+      <ProjectRootDirectory>$(ProjectDir)..\</ProjectRootDirectory>
       <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
       <IntDir>$(ProjectDir)__build_obj\$(Platform)\$(Configuration)\</IntDir>
       <LinkIncremental>false</LinkIncremental>
@@ -46,7 +47,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>pwsh.exe -nop -noni -f $(ProjectDir)scripts\Invoke-PostBuild.ps1 $(Configuration) $(Platform) $(SolutionDir)</Command>
+      <Command>pwsh.exe -nop -noni -f $(ProjectRootDirectory)scripts\Invoke-PostBuild.ps1 $(Configuration) $(Platform) $(ProjectRootDirectory)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
