@@ -59,6 +59,7 @@ function Get-ScriptDirectory {
 
         if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){
             Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ToolsRoot\VersionPatcher\verpatch.exe" -Scope Session
+            Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ToolsRoot\VersionPatcher\verpatch.exe" -Scope User
             Write-Output "[warning] VersionPatcherPath is not setup in environment variables"
             if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){ throw "cannot configure verpathc path"}
         }
