@@ -19,64 +19,44 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="peExtras.cpp">
+    <ClCompile Include="$(ProjectDir)..\src\peExtras.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="peutils.cpp">
+    <ClCompile Include="$(ProjectDir)..\src\peutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="relstamp.cpp">
+    <ClCompile Include="$(ProjectDir)..\src\relstamp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="$(ProjectDir)..\src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vs_version.cpp">
+    <ClCompile Include="$(ProjectDir)..\src\vs_version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="peExtras.h">
+    <ClInclude Include="$(ProjectDir)..\src\peExtras.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="relstamp.h">
+    <ClInclude Include="$(ProjectDir)..\src\relstamp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="$(ProjectDir)..\src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="$(ProjectDir)..\src\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vs_version.h">
+    <ClInclude Include="$(ProjectDir)..\src\vs_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\nowarns.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="codeproj\codeproject_vp.html">
-      <Filter>CodeProjectFiles</Filter>
-    </None>
-    <None Include="codeproj\verpatch-update.html">
-      <Filter>CodeProjectFiles</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="codeproj\ver-vista.png">
-      <Filter>CodeProjectFiles</Filter>
-    </Image>
-    <Image Include="codeproj\ver-winxp.png">
-      <Filter>CodeProjectFiles</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="usage.txt">
-      <Filter>Etc</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ver-self.cmd">
-      <Filter>Etc</Filter>
-    </CustomBuild>
-    <CustomBuild Include="verpatch-ReadMe.txt">
-      <Filter>Etc</Filter>
-    </CustomBuild>
+    <CustomBuild Include="$(ProjectDir)..\usage.txt" />
+    <CustomBuild Include="$(ProjectDir)..\verpatch-ReadMe.txt" />
   </ItemGroup>
 </Project>

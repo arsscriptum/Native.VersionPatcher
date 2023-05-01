@@ -18,5 +18,5 @@
 #include <assert.h>
 #include <strsafe.h>
 
-
+#include "nowarns.h"
 // TODO: reference additional headers your program requires here
