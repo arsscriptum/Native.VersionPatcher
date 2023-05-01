@@ -19,16 +19,23 @@ function Get-ScriptDirectory {
         }else{
             throw "missing argument 0"
         }
+        $Script:Platform = "Win32"
         if(!([string]::IsNullOrEmpty($args[1]))){
-            $RootPath = $args[1]
-            Write-Output "RootPath ==> $RootPath"
+            $Script:Platform = $args[1]
+            Write-Output "Platform ==> $Script:Platform"
         }else{
             throw "missing argument 1"
+        }
+        if(!([string]::IsNullOrEmpty($args[2]))){
+            $RootPath = $args[2]
+            Write-Output "RootPath ==> $RootPath"
+        }else{
+            throw "missing argument 2"
         }
         $SolutionDirectory = (Resolve-Path $RootPath).Path
         
         $ScriptsDirectory = (Resolve-Path "$SolutionDirectory\scripts").Path
-        $OutputDirectory = (Resolve-Path "$SolutionDirectory\$Configuration").Path
+        $OutputDirectory = (Resolve-Path "$SolutionDirectory\bin\$Platform\$Configuration").Path
         $BuiltExecutable = Join-Path "$OutputDirectory" "verpatch.exe"
         $ReadmeFile  = Join-Path "$SolutionDirectory" "usage.txt"
         Write-Output "=========================================================="
