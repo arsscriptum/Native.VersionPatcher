@@ -58,13 +58,16 @@ function Get-ScriptDirectory {
 
 
         if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){
-            Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ToolsRoot\VersionPatcher\verpatch.exe" -Scope Session
-            Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ToolsRoot\VersionPatcher\verpatch.exe" -Scope User
+            Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ProgramData\VersionPatcher\verpatch.exe" -Scope Session
+            Set-EnvironmentVariable -Name "VersionPatcherPath" -Value "$ENV:ProgramData\VersionPatcher\verpatch.exe" -Scope User
             Write-Output "[warning] VersionPatcherPath is not setup in environment variables"
             if([string]::IsNullOrEmpty($ENV:VersionPatcherPath)){ throw "cannot configure verpathc path"}
         }
 
         $VersionPatcherPath = "$ENV:VersionPatcherPath"
+        if(-not(Test-Path $VersionPatcherPath)){
+            Copy-Item "$BuiltExecutable" "$ENV:VersionPatcherPath" -Force
+        }
 
         $inf = Get-Item -Path "$BuiltExecutable"
         [DateTime]$CreatedOn = $inf.CreationTime

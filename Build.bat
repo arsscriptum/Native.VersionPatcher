@@ -19,6 +19,7 @@ goto :init
     set "__script_file=%~0"
     set "__target=%~1"
     set "__script_path=%~dp0"
+    set "__bin_release_path=%__script_path%\bin\Win32\Release"
     set "__makefile=%__scripts_root%\make\make.bat"
     set "__lib_date=%__scripts_root%\batlibs\date.bat"
     set "__lib_out=%__scripts_root%\batlibs\out.bat"
@@ -110,6 +111,8 @@ goto :init
 :: ==============================================================================
 :build
     call :build_x86
+    mkdir "%ProgramData%\VersionPatcher"
+    copy "%__bin_release_path%\verpatch.exe" "%ProgramData%\VersionPatcher"
     goto :finished
 
 
