@@ -11,8 +11,9 @@
 #define _A_MAX_RES_CB (500*1024)
 
 #if ( 1 && !defined(DEF_COMPANY_NAME) )
-#define DEF_COMPANY_NAME	_T(" ")
-#define DEF_COPYRGT			_T("Copyright (c) 2009")
+//#define DEF_COMPANY_NAME	_T("ArsScriptum - arsscriptum.github.io")
+#define DEF_COMPANY_NAME	_T("Luminator Technology Group - www.luminator.com")
+#define DEF_COPYRGT			_T("Copyright (C) 1999-2023  Guillaume Plante")
 #define DEF_PRODUCT_NAME	_T(" ")
 #endif
 
